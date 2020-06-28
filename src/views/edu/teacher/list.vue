@@ -34,6 +34,15 @@
             </template>
         </el-table-column>
         </el-table>
+        <!-- 分页 -->
+        <el-pagination
+            background
+            :current-page="page"
+            :page-size="limit"
+            :total="total"
+            style="padding: 30px 0; text-align: center;"
+            layout="total, prev, pager, next, jumper"
+            @current-change="getList" />
     </div>
 </template>
 <script>
@@ -58,7 +67,8 @@ export default {
     // 创建具体的方法, 调用 teacher.js 定义的方法
     methods: {
         // 讲师列表的方法
-        getList() {
+        getList(page = 1) {
+            this.page = page
             teacher.getTeacherListByPage(this.page, this.limit, this.teacherQuery)
             // 请求成功
             .then(response => {
