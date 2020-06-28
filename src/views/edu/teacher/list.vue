@@ -114,10 +114,6 @@ export default {
                 this.list = response.data.rows
                 this.total = response.data.total
             })
-            // 请求失败
-            .catch(error => {
-                console.log(error)
-            })
         },
         // 讲师删除
         removeTeacherById(id) {
@@ -126,10 +122,8 @@ export default {
                 cancelButtonText: '取消',
                 // 消息类型，用于显示图标
                 type: 'warning',
-                // 是否将取消（点击取消按钮）与关闭（点击关闭按钮或遮罩层、按下 ESC 键）进行区分
-                distinguishCancelAndClose: true,
                 // 是否使用圆角按钮
-                // roundButton: false
+                roundButton: false
             }).then(() => {
                 // 调用删除方法
                 teacher.deleteTeacherById(id)
