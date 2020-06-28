@@ -63,7 +63,7 @@
             <router-link :to="'/edu/teacher/edit/'+scope.row.id">
                 <el-button type="primary" size="mini" icon="el-icon-edit">修改</el-button>
             </router-link>
-            <el-button type="danger" size="mini" icon="el-icon-delete" @click="removeDataById(scope.row.id)">删除</el-button>
+            <el-button type="danger" size="mini" icon="el-icon-delete" @click="removeTeacherById(scope.row.id)">删除</el-button>
             </template>
         </el-table-column>
         </el-table>
@@ -99,6 +99,7 @@ export default {
     },
     // 创建具体的方法, 调用 teacher.js 定义的方法
     methods: {
+        // 清空表单数据
         resetData() {
             this.teacherQuery = {}
             this.getList()
@@ -117,6 +118,37 @@ export default {
             .catch(error => {
                 console.log(error)
             })
+        },
+        // 讲师删除
+        removeTeacherById(id) {
+            this.$confirm('此操作将永久删除讲师记录, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                // 消息类型，用于显示图标
+                type: 'warning',
+                // 是否将取消（点击取消按钮）与关闭（点击关闭按钮或遮罩层、按下 ESC 键）进行区分
+                distinguishCancelAndClose: true,
+                // 是否使用圆角按钮
+                // roundButton: false
+            }).then(() => {
+                // 调用删除方法
+                teacher.deleteTeacherById(id)
+                .then(response => {
+                    // 提示信息
+                    this.$message({
+                        type: 'success',
+                        message: '删除成功!'
+                     });
+                    this.getList()
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+                
+            })
+
+
+            
         }
 
     }
