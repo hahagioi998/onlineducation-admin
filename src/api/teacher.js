@@ -27,6 +27,18 @@ export default {
             url: `/eduservice/teacher/delete/${id}`,
             method: 'delete'
         })
+    },
+
+    /**
+     * 讲师添加
+     * @param {*} teacher 讲师参数对象
+     */
+    addTeacher(teacher) {
+        return request({
+            url: `/eduservice/teacher/addTeacher`,
+            method: 'post',
+            data: teacher
+        })
     }
-    // 讲师添加
+
 }
