@@ -5,7 +5,7 @@
         <el-input v-model="teacher.name"/>
       </el-form-item>
       <el-form-item label="讲师排序">
-        <el-input-number v-model="teacher.sort" controls-position="right" min="0" max="1"/>
+        <el-input-number v-model="teacher.sort" controls-position="right" min="0" />
       </el-form-item>
       <el-form-item label="讲师头衔">
         <el-select v-model="teacher.level" clearable placeholder="请选择">
@@ -43,18 +43,28 @@ export default {
         }
     },
     // 页面渲染之前执行, 调用 methods 里面定义的方法
-    create() {
-
+    created() {
+        // 判断路径中是否有 id 值
+        if (this.$route.params && this.$route.params.id) {
+            // 从路径中获取 id 值
+            const id = this.$route.params.id
+            this.getTeacherById(id)
+        }
     },
     // 创建具体的方法, 调用 teacher.js 定义的方法
     methods: {
         saveOrUpdate() {
-            // 添加
-            this.saveTeacher()
-            // 修改
+            // 判断是修改还是添加, teacher 对象中是否有 id
+            if (!this.teacher.id) {
+                // 添加
+                this.saveTeacher()
+            } else {
+                // 修改
+                this.updateTeacherInfo()
+            }
 
         },
-        // 添加讲师的方法
+        // 讲师添加的方法
         saveTeacher() {
             teacherApi.addTeacher(this.teacher)
             .then(response => {
@@ -65,6 +75,28 @@ export default {
                 });
                 // 回到列表页面, 路由跳转
                 this.$router.push({path: '/teacher/table'})
+            })
+        },
+
+        // 讲师修改的方法
+        updateTeacherInfo() {
+            teacherApi.updateTeacher(this.teacher)
+            .then(response => {
+                // 提示信息
+                this.$message({
+                    type: 'success',
+                    message: '修改成功!'
+                });
+                // 回到列表页面, 路由跳转
+                this.$router.push({path: '/teacher/table'})
+            })
+        },
+        
+        // 根据讲师 id 获取讲师信息
+        getTeacherById(id) {
+            teacherApi.getTeacherInfo(id)
+            .then(response => {
+                this.teacher = response.data.teacher
             })
         }
     }

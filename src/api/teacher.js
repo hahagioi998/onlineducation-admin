@@ -39,6 +39,29 @@ export default {
             method: 'post',
             data: teacher
         })
+    },
+
+    /**
+     * 获取讲师信息
+     * @param {*} id 讲师 id
+     */
+    getTeacherInfo(id) {
+        return request({
+            url: `/eduservice/teacher/getTeacher/${id}`,
+            method: 'get'
+        })
+    },
+
+    /**
+     * 修改讲师信息
+     * @param {*} teacher 
+     */
+    updateTeacher(teacher) {
+        return request({
+            url: `/eduservice/teacher/updateTeacher`,
+            method: 'post',
+            data: teacher
+        })
     }
 
 }
