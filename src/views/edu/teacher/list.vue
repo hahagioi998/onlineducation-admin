@@ -36,8 +36,8 @@
         <!-- 表格 -->
         <el-table
         v-loading="listLoading"
-        :data="list"
         element-loading-text="数据加载中"
+        :data="list"
         border
         fit
         highlight-current-row>
@@ -86,6 +86,7 @@ export default {
     // 定义变量和初始值
     data() {
         return {
+            listLoading: true,
             list: null, // 接口返回数据集合
             page: 1, // 当前页
             limit: 5, // 每页记录数
@@ -113,6 +114,7 @@ export default {
                 // response: 接口返回的数据
                 this.list = response.data.rows
                 this.total = response.data.total
+                this.listLoading = false
             })
         },
         // 讲师删除

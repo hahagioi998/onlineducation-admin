@@ -5,7 +5,7 @@
         <el-input v-model="teacher.name"/>
       </el-form-item>
       <el-form-item label="讲师排序">
-        <el-input-number v-model="teacher.sort" controls-position="right" min="0" />
+        <el-input-number v-model="teacher.sort" controls-position="right"/>
       </el-form-item>
       <el-form-item label="讲师头衔">
         <el-select v-model="teacher.level" clearable placeholder="请选择">
@@ -44,15 +44,32 @@ export default {
     },
     // 页面渲染之前执行, 调用 methods 里面定义的方法
     created() {
-        // 判断路径中是否有 id 值
-        if (this.$route.params && this.$route.params.id) {
-            // 从路径中获取 id 值
-            const id = this.$route.params.id
-            this.getTeacherById(id)
+        this.init()
+    },
+    // 监听
+    watch: {
+        // 路由变化的方式, 路由发生变化, 就会执行
+        $route(to, from) {
+            this.init()
         }
     },
+
     // 创建具体的方法, 调用 teacher.js 定义的方法
     methods: {
+        // 初始化
+        init() {
+          // 判断路径中是否有 id 值, 有表示修改
+          if (this.$route.params && this.$route.params.id) {
+              // 从路径中获取 id 值
+              const id = this.$route.params.id
+              this.getTeacherById(id)
+          } else {
+              // 没有表示添加
+              this.teacher = {}
+          }
+        },
+
+        // 添加或修改
         saveOrUpdate() {
             // 判断是修改还是添加, teacher 对象中是否有 id
             if (!this.teacher.id) {
@@ -62,7 +79,6 @@ export default {
                 // 修改
                 this.updateTeacherInfo()
             }
-
         },
         // 讲师添加的方法
         saveTeacher() {
