@@ -4,7 +4,7 @@
     <breadcrumb />
     <el-dropdown class="avatar-container" trigger="click">
       <div class="avatar-wrapper">
-        <img src="./headimg.jpg" class="user-avatar">
+        <img src="https://online-education-headimg.oss-cn-beijing.aliyuncs.com/2020-07/bdc316719ad24d699d0848b0bc9e307f-default.png" class="user-avatar">
         <i class="el-icon-caret-bottom"/>
       </div>
       <el-dropdown-menu slot="dropdown" class="user-dropdown">
