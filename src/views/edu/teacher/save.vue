@@ -27,7 +27,7 @@
       <!-- 讲师头像 -->
       <el-form-item label="讲师头像">
       <!-- 头衔缩略图 -->
-      <pan-thumb :image="teacher.avatar"/>
+      <pan-thumb :image="teacher.avatar+''"/>
       <!-- 文件上传按钮 -->
       <el-button type="primary" icon="el-icon-upload" @click="imagecropperShow=true">更换头像
       </el-button>
@@ -123,7 +123,7 @@ export default {
             message: '添加成功!'
           });
           // 回到列表页面, 路由跳转
-          this.$router.push({path: '/teacher/table'})
+          this.$router.push({path: '/teacher/tree'})
         })
       },
 

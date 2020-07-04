@@ -74,7 +74,7 @@ export const constantRouterMap = [
     meta: { title: '课程分类管理', icon: 'education' },
     children: [
       {
-        path: 'table',
+        path: 'tree',
         name: '课程分类列表',
         component: () => import('@/views/edu/subject/list'),
         meta: { title: '课程分类列表', icon: 'tree-table' }

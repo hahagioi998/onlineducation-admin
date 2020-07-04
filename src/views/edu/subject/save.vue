@@ -63,6 +63,7 @@ export default {
                 message: '课程分类已添加'
             })
             // 跳转到课程分类列表
+            this.$router.push({path:'/subject/table'})
         },
         // 上传失败之后
         fileUploadError(){
