@@ -104,9 +104,32 @@ export const constantRouterMap = [
       {
         path: 'save',
         name: '发布课程',
-        component: () => import('@/views/edu/course/save'),
+        component: () => import('@/views/edu/course/info'),
         meta: { title: '发布课程', icon: 'edit' }
       },
+      //--
+      {
+        path: 'info/:id',
+        name: 'EduCourseInfoEdit',
+        component: () => import('@/views/edu/course/info'),
+        meta: { title: '编辑课程基本信息', noCache: true },
+        hidden: true
+      },
+      {
+        path: 'chapter/:id',
+        name: 'EduCourseChapterEdit',
+        component: () => import('@/views/edu/course/chapter'),
+        meta: { title: '编辑课程大纲', noCache: true },
+        hidden: true
+      },
+        {
+          path: 'publish/:id',
+          name: 'EduCoursePublishEdit',
+          component: () => import('@/views/edu/course/publish'),
+          meta: { title: '发布课程', noCache: true },
+          hidden: true
+        },
+
     ]
   },
 
