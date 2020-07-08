@@ -7,6 +7,14 @@ export default {
             method: 'post',
             data: courseInfo
         })
-    }
+    },
+
+    // 2. 获取所有讲师
+    getAllTeacher() {
+        return request({
+            url: '/eduservice/teacher/findAll',
+            method: 'get'
+        })
+    },
 
 }
