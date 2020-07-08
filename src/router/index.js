@@ -102,7 +102,7 @@ export const constantRouterMap = [
         meta: { title: '课程列表', icon: 'tree-table' }
       },
       {
-        path: 'save',
+        path: 'info',
         name: '发布课程',
         component: () => import('@/views/edu/course/info'),
         meta: { title: '发布课程', icon: 'edit' }

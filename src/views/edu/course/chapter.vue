@@ -4,7 +4,7 @@
     <el-steps :active="2" process-status="wait" align-center style="margin-bottom: 40px;">
       <el-step title="填写课程基本信息"/>
       <el-step title="创建课程大纲"/>
-      <el-step title="提交审核"/>
+      <el-step title="最终发布"/>
     </el-steps>
     <el-form label-width="120px">
       <el-form-item>
@@ -27,11 +27,11 @@ export default {
   methods: {
     previous() {
       console.log('previous')
-      this.$router.push({ path: '/edu/course/info/1' })
+      this.$router.push({ path: '/course/info/1' })
     },
     next() {
       console.log('next')
-      this.$router.push({ path: '/edu/course/publish/1' })
+      this.$router.push({ path: '/course/publish/1' })
     }
   }
 }
