@@ -53,7 +53,19 @@
       <el-form-item label="课程简介">
         <el-input v-model="courseInfo.description" placeholder=""/>
       </el-form-item>
-      <!-- 课程封面 TODO -->
+      
+      <!-- 课程封面 -->
+      <el-form-item label="课程封面">
+        <el-upload
+          :show-file-list="false"
+          :on-success="handleAvatarSuccess"
+          :before-upload="beforeAvatarUpload"
+          :action="BASE_API + '/eduoss/fileoss'"
+          class="avatar-uploader">
+          <img :src="courseInfo.cover">
+        </el-upload>
+      </el-form-item>
+
       <el-form-item label="课程价格">
         <el-input-number :min="0" v-model="courseInfo.price" controls-position="right" placeholder="免费课程请设置为0元"/> 元
       </el-form-item>
@@ -74,7 +86,10 @@ export default {
       teacherList:[], // 所有讲师
       subjectOneList:[], // 所有课程的一级分类
       subjectTwoList:[], // 所有课程的二级分类
-      courseInfo:{}
+      courseInfo:{
+        cover: 'https://online-education-headimg.oss-cn-beijing.aliyuncs.com/public/%E8%AF%BE%E7%A8%8B%E9%BB%98%E8%AE%A4%E5%B0%81%E9%9D%A2.png'
+      },
+      BASE_API: process.env.BASE_API, // 接口 API 地址
     }
   },
   created() {
@@ -123,9 +138,31 @@ export default {
       for (let i = 0; i < this.subjectOneList.length; i++) {
         if (this.subjectOneList[i].id === value) {
           this.subjectTwoList = this.subjectOneList[i].children
+          // 把二级分类 id 清空
+          // this.courseInfo.subjectId = ''
         }
       }
     },
+
+    // 上传成功调用的方法
+    handleAvatarSuccess(res, file) {
+      // console.log(res)// 上传响应
+      // console.log(URL.createObjectURL(file.raw))// base64编码
+      this.courseInfo.cover = res.data.url
+    },
+    // 上传之前调用的方法
+    beforeAvatarUpload(file) {
+      const isJPG = (file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image.jpg')
+      const isLt2M = file.size / 1024 / 1024 < 2
+      if (!isJPG) {
+        this.$message.error('上传的文件不是图片格式!')
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!')
+      }
+      return isJPG && isLt2M
+    },
+
   }
 }
 </script>
