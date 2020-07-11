@@ -92,7 +92,7 @@ export default {
       subjectOneList:[], // 所有课程的一级分类
       subjectTwoList:[], // 所有课程的二级分类
       courseInfo:{
-        cover: 'https://online-education-headimg.oss-cn-beijing.aliyuncs.com/public/%E8%AF%BE%E7%A8%8B%E9%BB%98%E8%AE%A4%E5%B0%81%E9%9D%A2.png'
+        cover: process.env.OSS_CHAPTER
       },
       BASE_API: process.env.BASE_API, // 接口 API 地址
     }

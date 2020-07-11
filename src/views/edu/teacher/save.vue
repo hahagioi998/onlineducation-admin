@@ -97,7 +97,7 @@ export default {
         } else {
           // 没有表示添加
           this.teacher = {
-            avatar: 'https://online-education-headimg.oss-cn-beijing.aliyuncs.com/2020-07/bdc316719ad24d699d0848b0bc9e307f-default.png'
+            avatar: 'https://online-education-headimg.oss-cn-beijing.aliyuncs.com/public/%E9%BB%98%E8%AE%A4%E5%A4%B4%E5%83%8F%20.png'
           }
         }
       },

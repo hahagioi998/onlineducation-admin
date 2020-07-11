@@ -4,7 +4,7 @@
     <breadcrumb />
     <el-dropdown class="avatar-container" trigger="click">
       <div class="avatar-wrapper">
-        <img src="https://online-education-headimg.oss-cn-beijing.aliyuncs.com/2020-07/bdc316719ad24d699d0848b0bc9e307f-default.png" class="user-avatar">
+        <img :src="OSS_HEADIMG" class="user-avatar">
         <i class="el-icon-caret-bottom"/>
       </div>
       <el-dropdown-menu slot="dropdown" class="user-dropdown">
@@ -27,6 +27,12 @@ import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
 
 export default {
+  data() {
+    return {
+      OSS_HEADIMG: process.env.OSS_HEADIMG,
+    }
+  },
+
   components: {
     Breadcrumb,
     Hamburger
