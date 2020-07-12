@@ -79,13 +79,14 @@ export default {
       })
     },
 
+    // 上一步
     previous() {
-      console.log('previous')
-      this.$router.push({ path: '/course/info/1' })
+      this.$router.push({ path: `/course/info/${this.courseId}` })
     },
+    // 下一步
     next() {
       console.log('next')
-      this.$router.push({ path: '/course/publish/1' })
+      this.$router.push({ path: `/course/publish/${this.courseId}` })
     }
   }
 }

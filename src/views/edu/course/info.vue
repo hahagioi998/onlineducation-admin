@@ -97,13 +97,33 @@ export default {
       BASE_API: process.env.BASE_API, // 接口 API 地址
     }
   },
-  created() {
-    // 初始化所有讲师
-    this.getListTeacher()
-    // 初始化一级分类
-    this.getOneSubject()
+  // 路由跳转监听
+  watch: {
+    $route(to, from) {
+      this.init()
+    }
   },
+
+  created() {
+    this.init()
+  },
+
   methods: {
+    init() {
+      // 获取路由中的参数值
+      if (this.$route.params && this.$route.params.id) {
+        this.courseId = this.$route.params.id
+        // 根据id查询课程信息
+        this.getCourseInfo()
+      } else {
+        // 初始化所有讲师
+        this.getListTeacher()
+        // 初始化一级分类
+        this.getOneSubject()
+        // 清空表单
+        this.courseInfo = {}
+      }
+    },
     // 查询所有课程一级分类
     getOneSubject() {
       subject.getSubjectList()
@@ -120,21 +140,16 @@ export default {
       })
     },
 
-    // 保存课程基本信息
+    // 保存/更新课程基本信息
     saveOrUpdate() {
-      course.addCourseInfo(this.courseInfo)
-      .then(response => {
-        this.courseId = response.data.courseId
-        // 提示信息
-        this.$message({
-          type: 'success',
-          message: '添加课程信息成功'
-        })
-
-        // 跳转到第二步
-         this.$router.push({ path: `/course/chapter/${this.courseId}`})
-      })
-     
+      // 判断更新还是添加
+      if (!this.courseInfo.id) {
+        // 添加
+        this.addCourse()
+      } else {
+        // 修改
+        this.updateCourse()
+      }
     },
 
     // 一级分类改变时, 改变二级分类的值
@@ -167,6 +182,60 @@ export default {
       }
       return isJPG && isLt2M
     },
+
+    // 根据课程id获取课程信息
+    getCourseInfo() {
+      course.getCourseInfoById(this.courseId)
+      .then(response => {
+        this.courseInfo = response.data.courseInfoVo
+        // 1. 查询所有分类（一级分类+二级分类）
+        subject.getSubjectList()
+          .then(response => {
+            // 获取所有一级分类
+            this.subjectOneList = response.data.data
+            // 2. 遍历一级分类
+            for (let i = 0; i < this.subjectOneList.length; i++) {
+              // 获取每一个一级分类
+              var oneSubject = this.subjectOneList[i]
+              // 比较当前 courseInfo 里面的一级分类 id 和所有的一级分类 id
+              if (this.courseInfo.subjectParentId == oneSubject.id) {
+                // 获取一级分类所有的二级分类
+                this.subjectTwoList = oneSubject.children
+              }
+            }
+          })
+          //初始化所有讲师
+          this.getListTeacher()
+      })
+    },
+
+    // 添加课程
+    addCourse() {
+      course.addCourseInfo(this.courseInfo)
+      .then(response => {
+        // 提示信息
+        this.$message({
+          type: 'success',
+          message: '添加课程信息成功'
+        })
+        // 跳转到第二步
+         this.$router.push({ path: `/course/chapter/${response.data.courseId}`})
+      })
+    },
+
+    // 修改课程
+    updateCourse() {
+      course.updateCourseInfo(this.courseInfo)
+      .then(response => {
+        // 提示信息
+        this.$message({
+          type: 'success',
+          message: '成功修改课程信息'
+        })
+        // 跳转到第二步
+         this.$router.push({ path: `/course/chapter/${this.courseId}`})
+      })
+    }
 
   }
 }
