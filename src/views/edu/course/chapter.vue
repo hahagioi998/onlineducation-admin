@@ -7,7 +7,7 @@
       <el-step title="最终发布"/>
     </el-steps>
 
-    <el-button type="primary" @click="dialogChapterFormVisible=true">添加章节</el-button>
+    <el-button type="primary" @click="openChapterDialog()">添加章节</el-button>
 
     <!-- 章节 -->
     <ul class="chanpterList">
@@ -18,8 +18,8 @@
                 {{ chapter.title }}
                 <span class="acts">
                     <el-button type="text">添加课时</el-button>
-                    <el-button style="" type="text">编辑</el-button>
-                    <el-button type="text">删除</el-button>
+                    <el-button type="text" @click="openEditChapter(chapter.id)">编辑</el-button>
+                    <el-button type="text" @click="removeChapter(chapter.id)">删除</el-button>
                 </span>
             </p>
             <!-- 视频 -->
@@ -29,8 +29,8 @@
                     :key="video.id">
                     <p>{{ video.title }}
                         <span class="acts">
-                            <el-button type="text">编辑</el-button>
-                            <el-button type="text">删除</el-button>
+                            <el-button type="text" >编辑</el-button>
+                            <el-button type="text" >删除</el-button>
                         </span>
                     </p>
                 </li>
@@ -44,12 +44,12 @@
 
     <!-- 添加和修改章节表单 -->
     <el-dialog :visible.sync="dialogChapterFormVisible" title="添加章节">
-        <el-form :model="chapter" label-width="120px">
+        <el-form :model="chapterInfo" label-width="120px">
             <el-form-item label="章节标题">
-                <el-input v-model="chapter.title"/>
+                <el-input v-model="chapterInfo.title"/>
             </el-form-item>
             <el-form-item label="章节排序">
-                <el-input-number v-model="chapter.sort" :min="0" controls-position="right"/>
+                <el-input-number v-model="chapterInfo.sort" :min="0" controls-position="right"/>
             </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -67,7 +67,7 @@ export default {
       saveBtnDisabled: false, // 保存按钮是否禁用
       chapterVideoList: [],
       courseId: '',
-      chapter: {},
+      chapterInfo: {},
       dialogChapterFormVisible: false, // 章节弹框
     }
   },
@@ -81,12 +81,94 @@ export default {
 
   },
   methods: {
-    // 1. 根据课程 id 获取章节和小节数据列表
+    // 添加/更新
+    saveOrUpdate() {
+      if (!this.chapterInfo.id) {
+        this.addChapter()
+      } else {
+        this.updateChapter()
+      }
+      
+    },
+
+    // 添加章节
+    addChapter(chapterInfo) {
+      // 设置课程 id 到 chapterInfo 对象中
+      this.chapterInfo.courseId = this.courseId
+      chapter.addChapter(this.chapterInfo)
+      .then(response => {
+        // 添加完之后 --> 1.关闭弹窗, 2.添加提示信息, 3.刷新页面
+        this.dialogChapterFormVisible = false
+        this.$message({
+          type: 'success',
+          message: '添加章节成功'
+        })
+        this.getChapterVideo()
+      })
+    },
+
+    // 修改章节信息
+    updateChapter() {
+      chapter.updateChapter(this.chapterInfo)
+      .then(response => {
+        // 修改完之后 --> 1.关闭弹窗, 2.添加提示信息, 3.刷新页面
+        this.dialogChapterFormVisible = false
+        this.$message({
+          type: 'success',
+          message: '章节信息已修改'
+        })
+        this.getChapterVideo()
+      })
+    },
+
+    // 删除章节
+    removeChapter(chapterId) {
+      this.$confirm('此操作将永久删除章节记录, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        // 消息类型，用于显示图标
+        type: 'warning',
+        // 是否使用圆角按钮
+        roundButton: false
+      }).then(() => {
+        // 调用删除方法
+        chapter.deleteChapter(chapterId)
+        .then(response => {
+          // 提示信息
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+            });
+          // 刷新页面
+          this.getChapterVideo()
+        })
+        .catch(error => {
+          console.log(error)
+        })
+      })
+    },
+
+    // 修改章节弹框数据回显
+    openEditChapter(chapterId) {
+      this.dialogChapterFormVisible = true
+      chapter.getChapter(chapterId)
+      .then(response => {
+        this.chapterInfo = response.data.chapter
+      })
+    },
+
+    // 根据课程 id 获取章节和小节数据列表
     getChapterVideo() {
       chapter.getAllChapterVideo(this.courseId)
       .then(response => {
         this.chapterVideoList = response.data.allChapterVideo
       })
+    },
+
+    // 弹出添加章节页面
+    openChapterDialog() {
+      this.dialogChapterFormVisible = true
+      this.chapterInfo = {}
     },
 
     // 上一步
