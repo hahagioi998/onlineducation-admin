@@ -34,4 +34,12 @@ export default {
         })
     },
 
+    // 5. 课程最终发布确认信息
+    getPublishCourseInfo(courseId) {
+        return request({
+            url: `/eduservice/course/getPublishCourseInfo/${courseId}`,
+            method: 'get',
+        })
+    },
+
 }
