@@ -58,8 +58,31 @@ export default {
       this.$router.push({ path: `/course/chapter/${this.courseId}` })
     },
     publish() {
-      console.log('publish')
-      this.$router.push({ path: '/course/list' })
+      // 课程最终发布
+      this.$confirm('确认要发布课程吗, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        // 消息类型，用于显示图标
+        type: 'warning',
+        // 是否使用圆角按钮
+        roundButton: false
+      }).then(() => {
+        // 调用最终发布课程的方法
+        course.publishCourse(this.courseId)
+        .then(response => {
+          // 提示信息
+          this.$message({
+            type: 'success',
+            message: '课程发布成功'
+          }),
+          // 跳转课程列表页面
+          this.$router.push({ path: '/course/tree' })
+        }) 
+        .catch(error => {
+          console.log(error)
+        })
+      })
+      
     }
   }
 }
