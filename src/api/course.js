@@ -50,4 +50,27 @@ export default {
         })
     },
 
+    // 7. 课程列表
+    getCourseList() {
+        return request({
+            url: `/eduservice/course/getCourseList`,
+            method: 'get',
+        })
+    },
+
+    /**
+     * 课程列表, 分页带查询
+     * @param {*} current 当前页
+     * @param {*} limit 每页记录数
+     * @param {*} courseQuery 条件查询对象 
+     */
+    pageCourseCondition(current, limit, courseQuery) {
+        return request({
+            url: `/eduservice/course/pageCourseCondition/${current}/${limit}`,
+            method: 'post',
+            data: courseQuery
+        })
+    },
+
+
 }
