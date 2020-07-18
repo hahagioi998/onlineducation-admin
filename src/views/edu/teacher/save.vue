@@ -66,7 +66,7 @@ export default {
     // 定义变量和初始值
     data() {
         return {
-            teacher: {},
+            teacher: {avatar: process.env.OSS_HEADIMG},
             imagecropperShow: false, // 上传弹窗组件是否显示
             imagecropperKey: 0, // 上传组件key值
             BASE_API: process.env.BASE_API, // 获取dev.env.js里面的地址
@@ -97,7 +97,7 @@ export default {
         } else {
           // 没有表示添加
           this.teacher = {
-            avatar: 'https://online-education-headimg.oss-cn-beijing.aliyuncs.com/public/%E9%BB%98%E8%AE%A4%E5%A4%B4%E5%83%8F%20.png'
+            avatar: process.env.OSS_HEADIMG
           }
         }
       },
