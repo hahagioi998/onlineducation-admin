@@ -50,14 +50,6 @@ export default {
         })
     },
 
-    // 7. 课程列表
-    getCourseList() {
-        return request({
-            url: `/eduservice/course/getCourseList`,
-            method: 'get',
-        })
-    },
-
     /**
      * 课程列表, 分页带查询
      * @param {*} current 当前页
@@ -69,6 +61,14 @@ export default {
             url: `/eduservice/course/pageCourseCondition/${current}/${limit}`,
             method: 'post',
             data: courseQuery
+        })
+    },
+
+    // 8. 删除课程信息（以及关联的小节，章节，课程描述）
+    deleteCourse(courseId) {
+        return request({
+            url: `/eduservice/course/deleteCourse/${courseId}`,
+            method: 'delete'
         })
     },
 

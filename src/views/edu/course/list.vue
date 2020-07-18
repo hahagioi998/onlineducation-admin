@@ -40,27 +40,27 @@
         element-loading-text="数据加载中"
         :data="list"
         border
-        fit
+        style="width: 100%"
         highlight-current-row>
         <el-table-column
             label = "序号"
-            width = "60"
+            width = "80"
             align = "center">
             <template slot-scope = "scope">
             {{ (page - 1) * limit + scope.$index + 1 }}
             </template>
         </el-table-column>
-        <el-table-column prop="title" label="课程名称" />
-        <el-table-column label="课程状态" >
-            <template slot-scope="scope">
+        <el-table-column prop="title" label="课程名称" align = "center" />
+        <el-table-column label="课程状态" align = "center" >
+            <template slot-scope="scope" align = "center">
             {{ scope.row.status === 'Normal' ? '已发布' : '未发布' }}
             </template>
         </el-table-column>
-        <el-table-column prop="price" label="价格" sortable/>
-        <el-table-column prop="lessonNum" label="总课时" sortable/>
-        <el-table-column prop="viewCount" label="浏览数量" sortable/>
-        <el-table-column prop="gmtCreate" label="添加时间" width="180" sortable />
-        <el-table-column label="操作" width="150" align="center">
+        <el-table-column prop="lessonNum" label="总课时" sortable align = "center" />
+        <el-table-column prop="price" label="价格" sortable align = "center" />
+        <el-table-column prop="viewCount" label="浏览数量" sortable align = "center" />
+        <el-table-column prop="gmtCreate" label="添加时间"  sortable align = "center"  />
+        <el-table-column label="操作" width="150" align="center" fixed="right" >
             <template slot-scope="scope">
             <router-link :to="'/course/info/' + scope.row.id">
                 <el-button type="text" size="mini" icon="el-icon-edit">编辑课程基本信息</el-button>
@@ -68,7 +68,7 @@
             <router-link :to="'/course/chapter/' + scope.row.id">
                 <el-button type="text" size="mini" icon="el-icon-edit">编辑课程大纲</el-button>
             </router-link>
-            <el-button type="text" style="color: #F56C6C" size="mini" icon="el-icon-delete" @click="removeTeacherById(scope.row.id)">删除</el-button>
+            <el-button type="text" style="color: #F56C6C" size="mini" icon="el-icon-delete" @click="removeCourseById(scope.row.id)">删除</el-button>
             </template>
         </el-table-column>
         </el-table>
@@ -110,7 +110,7 @@ export default {
             this.courseQuery = {}
             this.getList()
         },
-        // 讲师列表的方法
+        // 课程列表的方法
         getList(page = 1) {
             this.page = page
             course.pageCourseCondition(this.page, this.limit, this.courseQuery)
@@ -122,9 +122,10 @@ export default {
                 this.listLoading = false
             })
         },
-        // 讲师删除
-        removeTeacherById(id) {
-            this.$confirm('此操作将永久删除讲师记录, 是否继续?', '提示', {
+        // 课程删除
+        removeCourseById(id) {
+            console.log(id)
+            this.$confirm('此操作将永久删除课程记录, 是否继续?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 // 消息类型，用于显示图标
@@ -133,7 +134,7 @@ export default {
                 roundButton: false
             }).then(() => {
                 // 调用删除方法
-                teacher.deleteTeacherById(id)
+                course.deleteCourse(id)
                 .then(response => {
                     // 提示信息
                     this.$message({

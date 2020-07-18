@@ -93,6 +93,7 @@ export default {
       subjectTwoList:[], // 所有课程的二级分类
       courseInfo:{
         cover: process.env.OSS_CHAPTER
+        // cover: 'https://online-education-headimg.oss-cn-beijing.aliyuncs.com/public/%E8%AF%BE%E7%A8%8B%E9%BB%98%E8%AE%A4%E5%B0%81%E9%9D%A2.jpg'
       },
       BASE_API: process.env.BASE_API, // 接口 API 地址
     }
@@ -121,7 +122,7 @@ export default {
         // 初始化一级分类
         this.getOneSubject()
         // 清空表单
-        this.courseInfo = {}
+        this.courseInfo = {cover: process.env.OSS_CHAPTER}
       }
     },
     // 查询所有课程一级分类
