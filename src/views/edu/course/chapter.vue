@@ -131,9 +131,25 @@ export default {
 
   },
   methods: {
+    // 点击确定调用的方法
     handleVodRemove(file, fileList) {
-      console.log(file, fileList);
+      // 调用删除视频的接口
+      video.removeVideoByVideoId(this.video.videoSourceId)
+      .then(response => {
+        // 提示信息
+        this.$message({
+          type: 'success',
+          message: '视频已删除'
+        })
+        // 把文件列表清空
+        this.fileList = []
+        // 清空视频 id
+        this.video.videoSourceId = ''
+        // 清空视频名称
+        this.video.videoOriginalName = ''
+      })
     },
+    // 点击 X 调用这个方法
     beforeVodRemove(file, fileList) {
       return this.$confirm(`确定移除 ${ file.name }？`);
     },

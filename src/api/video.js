@@ -34,6 +34,14 @@ export default {
             method: 'get'
         })
     },
+    
+    // 删除阿里云视频
+    removeVideoByVideoId(videoId) {
+        return request({
+            url: `/eduvod/video/removeVideoByVideoId/${videoId}`,
+            method: 'delete'
+        })
+    },
 
 
 }
