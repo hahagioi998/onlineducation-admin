@@ -170,11 +170,14 @@ export default {
     // 添加小节弹框
     openVideo(chapterId) {
       this.dialogVideoFormVisible = true
+      // 清空文件列表
       this.video = {}
+      this.fileList = []
       // 设置章节 id
       this.video.chapterId = chapterId
       // 设置小节 id
       this.video.courseId = this.courseId
+      
     },
 
     // 添加/更新小节
@@ -231,7 +234,7 @@ export default {
           this.$message({
             type: 'success',
             message: '删除成功!'
-            });
+          });
           // 刷新页面
           this.getChapterVideo()
         })
@@ -244,6 +247,10 @@ export default {
     // 打开小节弹窗, 数据回显
     openEditVideo(id) {
       this.dialogVideoFormVisible = true
+      // 清空文件列表
+      // this.video = {}
+      this.fileList = []
+
       video.getVideoInfo(id)
       .then(response => {
         this.video = response.data.video
