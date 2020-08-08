@@ -133,6 +133,35 @@ export const constantRouterMap = [
     ]
   },
 
+  {
+    path: '/banner',
+    component: Layout,
+    redirect: '/banner/table',
+    name: '网页banner',
+    meta: { title: '网页banner', icon: 'international' },
+    children: [
+      {
+        path: 'table',
+        name: 'banner列表',
+        component: () => import('@/views/edu/banner/list'),
+        meta: { title: 'banner列表', icon: 'list' }
+      },
+      {
+        path: 'save',
+        name: '添加banner',
+        component: () => import('@/views/edu/banner/save'),
+        meta: { title: '添加banner', icon: 'edit' }
+      },
+      {
+        path: 'edit/:id',
+        name: 'EduTeacherEdit',
+        component: () => import('@/views/edu/banner/save'),
+        meta: {title: '编辑banner', noCache: true},
+        hidden: true
+      }
+    ]
+  },
+
   
 
 
